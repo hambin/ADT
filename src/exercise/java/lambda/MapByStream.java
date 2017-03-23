@@ -19,6 +19,7 @@ public class MapByStream {
             System.out.println(m.getKey() + " " + m.getValue());
         }
         Map<String, List<Person>> map1 = inventory.stream().collect(Collectors.groupingBy(Person::getSex));
+        inventory.stream().collect(Collectors.toMap(Person::getId,Person::getSalar));
         Map<String, Integer> map2 = inventory.stream()
                 .map(this::c).collect(Collectors.groupingBy(e->e.getId(), Collectors.summingInt(e->Integer.parseInt(e.getSalar()))));
         for(Map.Entry<String, List<Person>> m : map1.entrySet()){
@@ -37,11 +38,21 @@ public class MapByStream {
         person.setSalar(p.getSalar());
         return person;
     }
+
     public  Map<String, Integer> b(Stream<Person> stream, Function<Person, String> function){
         return stream.collect(Collectors.groupingByConcurrent(function::apply, Collectors.summingInt(e->Integer.parseInt(e.getSalar()))));
     }
     public static void main(String[] args){
         MapByStream mbs = new MapByStream();
         mbs.a();
+
+
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        list.add("4");
+
+
     }
 }

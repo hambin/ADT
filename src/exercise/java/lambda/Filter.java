@@ -9,11 +9,12 @@ import java.util.function.Supplier;
  * Created by hanbing on 2017/3/3.
  */
 public class Filter {
-    public static void main(String[] args) {
+    public void main1(String[] args) {
+        Filter filter = new Filter();
         List<Apple> apples = new ArrayList<>();
         apples.add(new Apple("green", "1"));
         apples.add(new Apple("red", "2"));
-        List<Apple> result = filter(apples, Filter::isGreenApple);
+        List<Apple> result = filter(apples, filter::isGreenApple);
         System.out.println(result.size());
         //?这不能用" :: "？
         List<Apple> redApples = filter(apples, (Apple apple)->"red".equals(apple.getColor()));
@@ -26,11 +27,11 @@ public class Filter {
 
     }
 
-    static Apple create(Supplier<Apple> apple){
+     Apple create(Supplier<Apple> apple){
         return apple.get();
     }
 
-    static List<Apple> filter(List<Apple> apples, Predicate<Apple> p) {
+     List<Apple> filter(List<Apple> apples, Predicate<Apple> p) {
         List<Apple> list = new ArrayList<>();
         for (Apple apple : apples) {
             if (p.test(apple)) {
@@ -40,7 +41,7 @@ public class Filter {
         return list;
     }
 
-    static boolean isGreenApple(Apple apple) {
+     boolean isGreenApple(Apple apple) {
         return "green".equals(apple.getColor());
     }
 }

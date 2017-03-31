@@ -3,40 +3,43 @@ package exercise.java.comparator;
 /**
  * Created by hanbing on 2017/3/30.
  */
-public class Person implements Comparable<Person>{
+public class Person implements Comparable<Person> {
 
-        int age;
-        String name;
+    int age;
+    String name;
 
-        public Person( String name, int age) {
-            this.age = age;
-            this.name = name;
-        }
+    public Person() {
+    }
 
-        public int getAge() {
-            return age;
-        }
+    public Person(String name, int age) {
+        this.age = age;
+        this.name = name;
+    }
 
-        public void setAge(int age) {
-            this.age = age;
-        }
+    public int getAge() {
+        return age;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public String getName() {
+        return name;
+    }
 
-        @Override
-        public String toString() {
-            return name + " : " + age;
-        }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name + " : " + age;
+    }
 
 
-        public int compareTo(Person p) {
-            return  -(p.age - this.age);
-        }
+    public int compareTo(Person p) {
+        return this.age - p.age;
+    }
 
 }

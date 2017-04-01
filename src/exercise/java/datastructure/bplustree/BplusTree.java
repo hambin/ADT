@@ -6,13 +6,19 @@ import java.util.Random;
  * Created by hanbing on 2017/4/1.
  */
 public class BplusTree implements B {
-    /** 根节点 */
+    /**
+     * 根节点
+     */
     protected Node root;
 
-    /** 阶数，M值 */
+    /**
+     * 阶数，M值
+     */
     protected int order;
 
-    /** 叶子节点的链表头*/
+    /**
+     * 叶子节点的链表头
+     */
     protected Node head;
 
     public Node getHead() {
@@ -56,7 +62,7 @@ public class BplusTree implements B {
 
     }
 
-    public BplusTree(int order){
+    public BplusTree(int order) {
         if (order < 3) {
             System.out.print("order must be greater than 2");
             System.exit(0);

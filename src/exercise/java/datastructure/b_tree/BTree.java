@@ -247,23 +247,23 @@ public class BTree<K extends Comparable<K>> {
         return false;
     }
 
-    public void print(BNode<K> node){
-        if(node == null)
-            return ;
+    public void print(BNode<K> node) {
+        if (node == null)
+            return;
         int index = 0;
-        for(K k : node.getKeys()){
+        for (K k : node.getKeys()) {
             print(node.getChildren().get(index));
             System.out.print(k + " ");
-            print(node.getChildren().get(index+1));
+            print(node.getChildren().get(index + 1));
         }
     }
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         BTree<Integer> bTree = new BTree<>();
         BNode<Integer> root = bTree.CreateTree();
-        for(int i = 0 ; i < 10; i++){
-            bTree.insert(10-i);
+        for (int i = 0; i < 10; i++) {
+            bTree.insert(10 - i);
         }
         bTree.print(bTree.root);
     }

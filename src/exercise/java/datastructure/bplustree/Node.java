@@ -9,25 +9,39 @@ import java.util.Map.Entry;
  * Created by hanbing on 2017/4/1.
  */
 public class Node {
-    /** 是否为叶子节点 */
+    /**
+     * 是否为叶子节点
+     */
     protected boolean isLeaf;
 
-    /** 是否为根节点*/
+    /**
+     * 是否为根节点
+     */
     protected boolean isRoot;
 
-    /** 父节点 */
+    /**
+     * 父节点
+     */
     protected Node parent;
 
-    /** 叶节点的前节点*/
+    /**
+     * 叶节点的前节点
+     */
     protected Node previous;
 
-    /** 叶节点的后节点*/
+    /**
+     * 叶节点的后节点
+     */
     protected Node next;
 
-    /** 节点的关键字 */
+    /**
+     * 节点的关键字
+     */
     protected List<Entry<Comparable, Object>> entries;
 
-    /** 子节点 */
+    /**
+     * 子节点
+     */
     protected List<Node> children;
 
     public Node(boolean isLeaf) {
@@ -58,17 +72,17 @@ public class Node {
             return null;
 
             //如果不是叶子节点
-        }else {
+        } else {
             //如果key小于等于节点最左边的key，沿第一个子节点继续搜索
             if (key.compareTo(entries.get(0).getKey()) <= 0) {
                 return children.get(0).get(key);
                 //如果key大于节点最右边的key，沿最后一个子节点继续搜索
-            }else if (key.compareTo(entries.get(entries.size()-1).getKey()) >= 0) {
-                return children.get(children.size()-1).get(key);
+            } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
+                return children.get(children.size() - 1).get(key);
                 //否则沿比key大的前一个子节点继续搜索
-            }else {
+            } else {
                 for (int i = 0; i < entries.size(); i++) {
-                    if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i+1).getKey().compareTo(key) > 0) {
+                    if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i + 1).getKey().compareTo(key) > 0) {
                         return children.get(i).get(key);
                     }
                 }
@@ -78,11 +92,11 @@ public class Node {
         return null;
     }
 
-    public void insertOrUpdate(Comparable key, Object obj, BplusTree tree){
+    public void insertOrUpdate(Comparable key, Object obj, BplusTree tree) {
         //如果是叶子节点
-        if (isLeaf){
+        if (isLeaf) {
             //不需要分裂，直接插入或更新
-            if (contains(key) || entries.size() < tree.getOrder()){
+            if (contains(key) || entries.size() < tree.getOrder()) {
                 insertOrUpdate(key, obj);
                 if (parent != null) {
                     //更新父节点
@@ -90,12 +104,12 @@ public class Node {
                 }
 
                 //需要分裂
-            }else {
+            } else {
                 //分裂成左右两个节点
                 Node left = new Node(true);
                 Node right = new Node(true);
                 //设置链接
-                if (previous != null){
+                if (previous != null) {
                     previous.setNext(left);
                     left.setPrevious(previous);
                 }
@@ -103,7 +117,7 @@ public class Node {
                     next.setPrevious(right);
                     right.setNext(next);
                 }
-                if (previous == null){
+                if (previous == null) {
                     tree.setHead(left);
                 }
 
@@ -117,10 +131,10 @@ public class Node {
                 int rightSize = (tree.getOrder() + 1) / 2;
                 //复制原节点关键字到分裂出来的新节点
                 insertOrUpdate(key, obj);
-                for (int i = 0; i < leftSize; i++){
+                for (int i = 0; i < leftSize; i++) {
                     left.getEntries().add(entries.get(i));
                 }
-                for (int i = 0; i < rightSize; i++){
+                for (int i = 0; i < rightSize; i++) {
                     right.getEntries().add(entries.get(leftSize + i));
                 }
 
@@ -131,7 +145,7 @@ public class Node {
                     parent.getChildren().remove(this);
                     left.setParent(parent);
                     right.setParent(parent);
-                    parent.getChildren().add(index,left);
+                    parent.getChildren().add(index, left);
                     parent.getChildren().add(index + 1, right);
                     setEntries(null);
                     setChildren(null);
@@ -140,7 +154,7 @@ public class Node {
                     parent.updateInsert(tree);
                     setParent(null);
                     //如果是根节点
-                }else {
+                } else {
                     isRoot = false;
                     Node parent = new Node(false, true);
                     tree.setRoot(parent);
@@ -159,17 +173,17 @@ public class Node {
             }
 
             //如果不是叶子节点
-        }else {
+        } else {
             //如果key小于等于节点最左边的key，沿第一个子节点继续搜索
             if (key.compareTo(entries.get(0).getKey()) <= 0) {
                 children.get(0).insertOrUpdate(key, obj, tree);
                 //如果key大于节点最右边的key，沿最后一个子节点继续搜索
-            }else if (key.compareTo(entries.get(entries.size()-1).getKey()) >= 0) {
-                children.get(children.size()-1).insertOrUpdate(key, obj, tree);
+            } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
+                children.get(children.size() - 1).insertOrUpdate(key, obj, tree);
                 //否则沿比key大的前一个子节点继续搜索
-            }else {
+            } else {
                 for (int i = 0; i < entries.size(); i++) {
-                    if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i+1).getKey().compareTo(key) > 0) {
+                    if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i + 1).getKey().compareTo(key) > 0) {
                         children.get(i).insertOrUpdate(key, obj, tree);
                         break;
                     }
@@ -178,8 +192,10 @@ public class Node {
         }
     }
 
-    /** 插入节点后中间节点的更新 */
-    protected void updateInsert(BplusTree tree){
+    /**
+     * 插入节点后中间节点的更新
+     */
+    protected void updateInsert(BplusTree tree) {
 
         validate(this, tree);
 
@@ -192,12 +208,12 @@ public class Node {
             int leftSize = (tree.getOrder() + 1) / 2 + (tree.getOrder() + 1) % 2;
             int rightSize = (tree.getOrder() + 1) / 2;
             //复制子节点到分裂出来的新节点，并更新关键字
-            for (int i = 0; i < leftSize; i++){
+            for (int i = 0; i < leftSize; i++) {
                 left.getChildren().add(children.get(i));
                 left.getEntries().add(new SimpleEntry(children.get(i).getEntries().get(0).getKey(), null));
                 children.get(i).setParent(left);
             }
-            for (int i = 0; i < rightSize; i++){
+            for (int i = 0; i < rightSize; i++) {
                 right.getChildren().add(children.get(leftSize + i));
                 right.getEntries().add(new SimpleEntry(children.get(leftSize + i).getEntries().get(0).getKey(), null));
                 children.get(leftSize + i).setParent(right);
@@ -210,7 +226,7 @@ public class Node {
                 parent.getChildren().remove(this);
                 left.setParent(parent);
                 right.setParent(parent);
-                parent.getChildren().add(index,left);
+                parent.getChildren().add(index, left);
                 parent.getChildren().add(index + 1, right);
                 setEntries(null);
                 setChildren(null);
@@ -219,7 +235,7 @@ public class Node {
                 parent.updateInsert(tree);
                 setParent(null);
                 //如果是根节点
-            }else {
+            } else {
                 isRoot = false;
                 Node parent = new Node(false, true);
                 tree.setRoot(parent);
@@ -236,7 +252,9 @@ public class Node {
         }
     }
 
-    /** 调整节点关键字*/
+    /**
+     * 调整节点关键字
+     */
     protected static void validate(Node node, BplusTree tree) {
 
         // 如果关键字个数与子节点个数相同
@@ -246,14 +264,14 @@ public class Node {
                 if (node.getEntries().get(i).getKey().compareTo(key) != 0) {
                     node.getEntries().remove(i);
                     node.getEntries().add(i, new SimpleEntry(key, null));
-                    if(!node.isRoot()){
+                    if (!node.isRoot()) {
                         validate(node.getParent(), tree);
                     }
                 }
             }
             // 如果子节点数不等于关键字个数但仍大于M / 2并且小于M，并且大于2
         } else if (node.isRoot() && node.getChildren().size() >= 2
-                ||node.getChildren().size() >= tree.getOrder() / 2
+                || node.getChildren().size() >= tree.getOrder() / 2
                 && node.getChildren().size() <= tree.getOrder()
                 && node.getChildren().size() >= 2) {
             node.getEntries().clear();
@@ -267,7 +285,9 @@ public class Node {
         }
     }
 
-    /** 删除节点后中间节点的更新*/
+    /**
+     * 删除节点后中间节点的更新
+     */
     protected void updateRemove(BplusTree tree) {
 
         validate(this, tree);
@@ -366,23 +386,23 @@ public class Node {
         }
     }
 
-    public void remove(Comparable key, BplusTree tree){
+    public void remove(Comparable key, BplusTree tree) {
         //如果是叶子节点
-        if (isLeaf){
+        if (isLeaf) {
 
             //如果不包含该关键字，则直接返回
-            if (!contains(key)){
+            if (!contains(key)) {
                 return;
             }
 
             //如果既是叶子节点又是跟节点，直接删除
             if (isRoot) {
                 remove(key);
-            }else {
+            } else {
                 //如果关键字数大于M / 2，直接删除
                 if (entries.size() > tree.getOrder() / 2 && entries.size() > 2) {
                     remove(key);
-                }else {
+                } else {
                     //如果自身关键字数小于M / 2，并且前节点关键字数大于M / 2，则从其处借补
                     if (previous != null
                             && previous.getEntries().size() > tree.getOrder() / 2
@@ -395,7 +415,7 @@ public class Node {
                         entries.add(0, entry);
                         remove(key);
                         //如果自身关键字数小于M / 2，并且后节点关键字数大于M / 2，则从其处借补
-                    }else if (next != null
+                    } else if (next != null
                             && next.getEntries().size() > tree.getOrder() / 2
                             && next.getEntries().size() > 2
                             && next.getParent() == parent) {
@@ -405,12 +425,12 @@ public class Node {
                         entries.add(entry);
                         remove(key);
                         //否则需要合并叶子节点
-                    }else {
+                    } else {
                         //同前面节点合并
                         if (previous != null
                                 && (previous.getEntries().size() <= tree.getOrder() / 2 || previous.getEntries().size() <= 2)
                                 && previous.getParent() == parent) {
-                            for (int i = previous.getEntries().size() - 1; i >=0; i--) {
+                            for (int i = previous.getEntries().size() - 1; i >= 0; i--) {
                                 //从末尾开始添加到首位
                                 entries.add(0, previous.getEntries().get(i));
                             }
@@ -425,15 +445,15 @@ public class Node {
                                 previous = temp.getPrevious();
                                 temp.setPrevious(null);
                                 temp.setNext(null);
-                            }else {
+                            } else {
                                 tree.setHead(this);
                                 previous.setNext(null);
                                 previous = null;
                             }
                             //同后面节点合并
-                        }else if(next != null
+                        } else if (next != null
                                 && (next.getEntries().size() <= tree.getOrder() / 2 || next.getEntries().size() <= 2)
-                                && next.getParent() == parent){
+                                && next.getParent() == parent) {
                             for (int i = 0; i < next.getEntries().size(); i++) {
                                 //从首位开始添加到末尾
                                 entries.add(next.getEntries().get(i));
@@ -449,7 +469,7 @@ public class Node {
                                 next = temp.getNext();
                                 temp.setPrevious(null);
                                 temp.setNext(null);
-                            }else {
+                            } else {
                                 next.setPrevious(null);
                                 next = null;
                             }
@@ -459,17 +479,17 @@ public class Node {
                 parent.updateRemove(tree);
             }
             //如果不是叶子节点
-        }else {
+        } else {
             //如果key小于等于节点最左边的key，沿第一个子节点继续搜索
             if (key.compareTo(entries.get(0).getKey()) <= 0) {
                 children.get(0).remove(key, tree);
                 //如果key大于节点最右边的key，沿最后一个子节点继续搜索
-            }else if (key.compareTo(entries.get(entries.size()-1).getKey()) >= 0) {
-                children.get(children.size()-1).remove(key, tree);
+            } else if (key.compareTo(entries.get(entries.size() - 1).getKey()) >= 0) {
+                children.get(children.size() - 1).remove(key, tree);
                 //否则沿比key大的前一个子节点继续搜索
-            }else {
+            } else {
                 for (int i = 0; i < entries.size(); i++) {
-                    if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i+1).getKey().compareTo(key) > 0) {
+                    if (entries.get(i).getKey().compareTo(key) <= 0 && entries.get(i + 1).getKey().compareTo(key) > 0) {
                         children.get(i).remove(key, tree);
                         break;
                     }
@@ -478,7 +498,9 @@ public class Node {
         }
     }
 
-    /** 判断当前节点是否包含该关键字*/
+    /**
+     * 判断当前节点是否包含该关键字
+     */
     protected boolean contains(Comparable key) {
         for (Entry<Comparable, Object> entry : entries) {
             if (entry.getKey().compareTo(key) == 0) {
@@ -488,8 +510,10 @@ public class Node {
         return false;
     }
 
-    /** 插入到当前节点的关键字中*/
-    protected void insertOrUpdate(Comparable key, Object obj){
+    /**
+     * 插入到当前节点的关键字中
+     */
+    protected void insertOrUpdate(Comparable key, Object obj) {
         Entry<Comparable, Object> entry = new SimpleEntry<Comparable, Object>(key, obj);
         //如果关键字列表长度为0，则直接插入
         if (entries.size() == 0) {
@@ -503,13 +527,13 @@ public class Node {
                 entries.get(i).setValue(obj);
                 return;
                 //否则插入
-            }else if (entries.get(i).getKey().compareTo(key) > 0){
+            } else if (entries.get(i).getKey().compareTo(key) > 0) {
                 //插入到链首
                 if (i == 0) {
                     entries.add(0, entry);
                     return;
                     //插入到中间
-                }else {
+                } else {
                     entries.add(i, entry);
                     return;
                 }
@@ -519,8 +543,10 @@ public class Node {
         entries.add(entries.size(), entry);
     }
 
-    /** 删除节点*/
-    protected void remove(Comparable key){
+    /**
+     * 删除节点
+     */
+    protected void remove(Comparable key) {
         int index = -1;
         for (int i = 0; i < entries.size(); i++) {
             if (entries.get(i).getKey().compareTo(key) == 0) {
@@ -589,7 +615,7 @@ public class Node {
         this.isRoot = isRoot;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("isRoot: ");
         sb.append(isRoot);
@@ -598,7 +624,7 @@ public class Node {
         sb.append(isLeaf);
         sb.append(", ");
         sb.append("keys: ");
-        for (Entry entry : entries){
+        for (Entry entry : entries) {
             sb.append(entry.getKey());
             sb.append(", ");
         }

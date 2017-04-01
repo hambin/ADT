@@ -38,6 +38,12 @@ public class UseOfComparable{
         Collections.sort(ss);
         ss.forEach(System.out::println);
 
+        SortedSet<String> stringSet = new TreeSet<>();
+        stringSet.add("张");
+        stringSet.add("哈哈");
+        stringSet.add("李四");
+
+        stringSet.forEach(System.out::println);
 
     }
 

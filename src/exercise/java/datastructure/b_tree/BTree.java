@@ -2,6 +2,7 @@ package exercise.java.datastructure.b_tree;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by hanbing on 2017/3/27.
@@ -219,6 +220,7 @@ public class BTree<K extends Comparable<K>> {
                         root.getChildren().set(0, root.getChildren().get(0).getChildren().get(0));
                     }
                 }
+            }
                 return delete(childNode, key);
             }
 
@@ -243,8 +245,6 @@ public class BTree<K extends Comparable<K>> {
             node.getChildren().remove(pos + 1);
             return delete(leftChild, key);
 
-        }
-        return false;
     }
 
     public void print(BNode<K> node) {
@@ -258,6 +258,24 @@ public class BTree<K extends Comparable<K>> {
         }
     }
 
+    public void output()
+    {
+        Queue<BNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty())
+        {
+            BNode node = queue.poll();
+            for(int i = 0; i < node.getSize(); ++ i)
+                System.out.print(node.getKeys().get(i) + " ");
+            System.out.println();
+            if(!node.isLeaf())
+            {
+                for(int i = 0; i <= node.getSize(); ++ i)
+                    queue.offer((BNode) node.getChildren().get(i));
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         BTree<Integer> bTree = new BTree<>();
@@ -265,7 +283,8 @@ public class BTree<K extends Comparable<K>> {
         for (int i = 0; i < 10; i++) {
             bTree.insert(10 - i);
         }
-        bTree.print(bTree.root);
+        //bTree.print(bTree.root);
+        bTree.output();
     }
 
 }

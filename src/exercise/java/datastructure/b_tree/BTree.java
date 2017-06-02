@@ -285,6 +285,8 @@ public class BTree<K extends Comparable<K>> {
         }
         //bTree.print(bTree.root);
         bTree.output();
+
+        System.out.println(bTree.height);
     }
 
 }

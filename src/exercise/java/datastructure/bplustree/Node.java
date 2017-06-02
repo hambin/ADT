@@ -260,7 +260,9 @@ public class Node {
         // 如果关键字个数与子节点个数相同
         if (node.getEntries().size() == node.getChildren().size()) {
             for (int i = 0; i < node.getEntries().size(); i++) {
+                //子节点的第一个键值
                 Comparable key = node.getChildren().get(i).getEntries().get(0).getKey();
+
                 if (node.getEntries().get(i).getKey().compareTo(key) != 0) {
                     node.getEntries().remove(i);
                     node.getEntries().add(i, new SimpleEntry(key, null));

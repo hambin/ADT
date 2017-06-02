@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * Created by hanbing on 2017/3/3.
@@ -24,6 +25,7 @@ public class Filter {
 
         int num = 110;
         Runnable r = ()-> System.out.println(num);
+
 
     }
 

@@ -1,8 +1,6 @@
 package exercise.java.datastructure.r_tree;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -183,6 +181,13 @@ public class RTree {
 //        for (int i = 0; i < rectangles.length; i++)
 //            System.out.println(rectangles[i]);
 
+        File writeName = new File("D://output.txt"); // 相对路径，如果没有则要建立一个新的output。txt文件
+        writeName.createNewFile(); // 创建新文件
+        BufferedWriter out = new BufferedWriter(new FileWriter(writeName));
+        //out.write("我会写入文件啦\r\n"); // \r\n即为换行
+        //out.flush(); // 把缓存区内容压入文件
+        //out.close(); // 最后记得关闭文件
+
 
         System.out.println("---------------------------------");
         RTree tree = new RTree(5, 0.4f, Constants.RTREE_QUADRATIC,2);
@@ -204,14 +209,21 @@ public class RTree {
 
             Rectangle[] rectangles = tree.root.datas;
             System.out.println(tree.root.level);
-            for(int j = 0; j < rectangles.length; j ++)
+            out.write(String.valueOf(tree.root.level) + "\r\n");
+            for(int j = 0; j < rectangles.length; j ++) {
                 System.out.println(rectangles[j]);
+                out.write(String.valueOf(rectangles[j]) + "\r\n");
+            }
         }
+        out.flush();
+
 
 
         //删除结点
         System.out.println("---------------------------------");
         System.out.println("Begin delete.");
+        out.write("---------------------------------");
+        out.write("Begin delete.");
 
         reader = new BufferedReader(new FileReader(new File("d:\\LB.txt")));
         while((line = reader.readLine()) != null)
@@ -230,12 +242,17 @@ public class RTree {
 
             Rectangle[] rectangles = tree.root.datas;
             System.out.println(tree.root.level);
-            for(int j = 0; j < rectangles.length; j ++)
+            out.write(tree.root.level);
+            for(int j = 0; j < rectangles.length; j ++) {
                 System.out.println(rectangles[j]);
+            }
+
         }
 
         System.out.println("---------------------------------");
         System.out.println("Delete finished.");
+
+        out.close();
 
     }
 

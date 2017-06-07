@@ -8,9 +8,15 @@ import java.util.List;
  */
 public class Cluster {
     private String clusterName;
-    private double[] medoid;
+    private Medoid medoid;
     private ArrayList<DataPoint> dataPoints;
 
+    public void setMedoid(Medoid medoid){
+        this.medoid = medoid;
+    }
+    public Medoid getMedoid(){
+        return medoid;
+    }
     public Cluster(String clusterName){
         this.clusterName = clusterName;
         this.medoid = null;

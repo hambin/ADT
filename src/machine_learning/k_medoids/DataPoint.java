@@ -59,6 +59,15 @@ public class DataPoint {
         return Math.sqrt(sum);
     }
 
+    public double disToMedoid(Medoid medoid){
+        double sum = 0;
+        for(int i = 0; i < data.length; i++){
+            double temp = Math.pow((data[i] - medoid.getData()[i]), 2);
+            sum += temp;
+        }
+        return Math.sqrt(sum);
+    }
+
     public Cluster getCluster(){
         return cluster;
     }

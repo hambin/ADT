@@ -8,6 +8,17 @@ import java.util.ArrayList;
 public class DataPoint {
 
     private double[] data;
+    private double[] left;
+    private double[] right;
+
+    public double[] getLeft() {
+        return left;
+    }
+
+    public double[] getRight() {
+        return right;
+    }
+
     private Cluster cluster;
     private String pointName;
     private double euDt;
@@ -41,6 +52,13 @@ public class DataPoint {
         this.pointName = pointName;
         this.cluster = null;
     }
+    public DataPoint(double[] data, String pointName, double[] left, double[] right){
+        this.data = data;
+        this.pointName = pointName;
+        this.left = left;
+        this.right = right;
+        this.cluster = null;
+    }
 
     public double calEuclideanDistanceSum(){
         double sum = 0;
@@ -51,7 +69,7 @@ public class DataPoint {
         for(int i = 0; i < dataPoints.size(); i++){
             DataPoint dataPoint = dataPoints.get(i);
             for(int j = 0; j < data.length; j++){
-                temp = Math.pow((this.data[i] - dataPoint.data[i]), 2);
+                temp = Math.pow((this.data[j] - dataPoint.data[j]), 2);
                 sum += temp;
             }
         }

@@ -51,7 +51,8 @@ public class Medoid {
     public void calcEtdDisSum(){
         double sum = 0;
         double temp;
-        ArrayList<DataPoint> dataPoints = this.cluster.getDataPoints();
+        Cluster cluster = this.getCluster();
+        ArrayList<DataPoint> dataPoints = cluster.getDataPoints();
 
         for(int i = 0; i < dataPoints.size(); i++){
             DataPoint dataPoint = dataPoints.get(i);

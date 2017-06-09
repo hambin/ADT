@@ -14,16 +14,18 @@ public class Cluster {
     public void setMedoid(Medoid medoid){
         this.medoid = medoid;
     }
+
     public Medoid getMedoid(){
         return medoid;
     }
+
     public Cluster(String clusterName){
         this.clusterName = clusterName;
         this.medoid = null;
         dataPoints = new ArrayList<>();
     }
-    public ArrayList getDataPoints(){
-        return dataPoints;
+    public ArrayList<DataPoint> getDataPoints(){
+        return this.dataPoints;
     }
     public DataPoint getDataPoint(int index){
         return this.dataPoints.get(index);

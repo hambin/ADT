@@ -1,4 +1,4 @@
-package java.concurrent;
+package javaExercise.concurrent;
 
 import java.util.concurrent.CompletableFuture;
 

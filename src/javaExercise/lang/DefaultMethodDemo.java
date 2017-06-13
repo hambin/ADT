@@ -1,4 +1,4 @@
-package java.lang;
+package javaExercise.lang;
 
 import java.util.Arrays;
 import java.util.Collections;

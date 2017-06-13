@@ -1,4 +1,4 @@
-package java.stream;
+package javaExercise.stream;
 
 import java.util.IntSummaryStatistics;
 import java.util.concurrent.ThreadLocalRandom;

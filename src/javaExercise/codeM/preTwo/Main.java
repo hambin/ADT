@@ -22,16 +22,24 @@ public class Main {
         while(n > Math.pow(2, 20) || n < 1 || ((n & n-1) != 0)){
             n = scanner.nextInt();
         }
-
+    System.out.println(n);
         //arr = new int[n];
         for(int i = 0; i < n; i++){
-            arr.add(random.nextInt());
+            arr.add(random.nextInt(10000000));
         }
         int value = arr.get(0);
         Collections.sort(arr);
+//        for(int i = 0 ; i < arr.size(); i++){
+//            System.out.print(arr.get(i) + " ");
+//        }
+        long start = new Date().getTime();
+        //System.out.println(arr.size());
         int count = findMax(value, arr, 0, arr.size());
-        System.out.println(arr.toString());
+
+
+        System.out.println();
         System.out.println(count);
+        System.out.println(new Date().getTime() - start + "ms");
     }
 
     public static int findMax(int value, List arr, int start, int end){
